@@ -22,8 +22,9 @@ type Player struct {
 	Name string
 	*Dimensions
 	*Position
-	Speed int
-	Dmg   int
+	Speed  int
+	Dmg    int
+	health int
 }
 type EnemyLevel int
 
@@ -35,15 +36,47 @@ const (
 )
 
 type Weapon interface {
-	drawProjectile()
+	draw()
+	update()
+	position()
 }
-type Enemy struct {
-	EnemyLevel
-	*Dimensions
-	*Position
-	Speed int
+
+type Enemy interface {
+	update()
+	draw()
+	position()
+}
+type BaseEnemy struct {
 	Weapon
+	*Position
+	Dimensions
+	health int
 }
+type BaseWeapon struct {
+	speed int
+	dmg   int
+	*Position
+	Dimensions
+}
+
+func NewFr5aWeapon(x, y int) *BaseWeapon {
+	b := &BaseWeapon{
+		Position:   &Position{x: x, y: y},
+		Dimensions: Dimensions{Width: 10, Height: 10},
+		dmg:        34,
+	}
+	return b
+}
+
+func NewFr5aEnemy(x, y int) *BaseEnemy {
+	b := &BaseEnemy{
+		Position:   &Position{x: x, y: y},
+		Dimensions: Dimensions{Width: 10, Height: 10},
+		health:     100,
+	}
+	return b
+}
+
 type Game struct {
 	Player *Player
 }
@@ -82,6 +115,7 @@ func NewPlayer(name string, speed, dmg int) *Player {
 			Width:  30,
 			Height: 50,
 		},
+		health: 100,
 	}
 	return p
 }
@@ -105,7 +139,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 }
 
 func main() {
-	p := NewPlayer("Saif", 10, 10)
+	p := NewPlayer("Saif", 10, 100)
 	ebiten.SetWindowSize(1280, 720)
 	ebiten.SetWindowTitle("Sapce Invaders")
 	if err := ebiten.RunGame(&Game{Player: p}); err != nil {
