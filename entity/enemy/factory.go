@@ -4,7 +4,10 @@ import (
 	"githbu.com/SaifOmar/space-invaders/entity"
 )
 
-var enemyStartingPos = entity.Position{X: 300, Y: 300}
+const (
+	staringX = 280
+	staringY = 200
+)
 
 type EnemyFactory interface {
 	CreateEnemy(x, y int) Enemy
@@ -29,8 +32,7 @@ type EnemyFacade struct {
 	LastRow      int
 	RowLength    int
 	SpaceBetween int
-	LastPosition entity.Position
-	MaxBounds    entity.Position
+	LastPosition *entity.Position
 	EnemyLevel
 }
 
@@ -40,13 +42,9 @@ func NewEnemyFacade(Rows int) *EnemyFacade {
 		Row:          0,
 		LastRow:      0,
 		SpaceBetween: 60,
-		RowLength:    10,
-		LastPosition: enemyStartingPos,
-		MaxBounds: entity.Position{
-			X: 400,
-			Y: 400,
-		},
-		EnemyLevel: fr5a,
+		RowLength:    12,
+		LastPosition: &entity.Position{X: staringX, Y: staringY},
+		EnemyLevel:   fr5a,
 	}
 }
 
@@ -54,7 +52,7 @@ func (e *EnemyFacade) CreateEnemy() Enemy {
 	var createdEnemy Enemy
 	if e.LastRow < e.Row {
 		e.LastRow = e.Row
-		e.LastPosition.X = enemyStartingPos.X
+		e.LastPosition.X = staringX
 	}
 	posX := e.LastPosition.X
 	posY := e.LastPosition.Y + e.Row*100
