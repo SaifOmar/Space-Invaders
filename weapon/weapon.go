@@ -1,43 +1,23 @@
 package weapon
 
 import (
-	"image/color"
-
 	"githbu.com/SaifOmar/space-invaders/entity"
 )
 
 type Weapon interface {
-	fire(P entity.Position) *Projectile
-	update(dt float32)
+	Fire(P entity.Position, dt float64) *Projectile
+	Update(dt float64)
 }
 
 type BaseWeapon struct {
-	cooldown    int
-	timeelapsed int
+	Cooldown    float64
+	Timeelapsed float64
 }
 
-func NewFr5aWeapon(x, y int) BaseWeapon {
-	b := BaseWeapon{
-		cooldown:    10,
-		timeelapsed: 10,
-	}
-	return b
+func (w *BaseWeapon) Fire(p entity.Position, dt float64) *Projectile {
+	return NewProjectile(10, p)
 }
 
-func (w *BaseWeapon) fire(p entity.Position) *Projectile {
-	pr := &Projectile{
-		speed:    3,
-		dmg:      34,
-		color:    color.RGBA{0x10, 0x10, 0x10, 0x10},
-		Position: p.ConstructNewPosition(),
-		Dimensions: &entity.Dimensions{
-			Width:  10,
-			Height: 10,
-		},
-	}
-
-	return pr
-}
-
-func (w *BaseWeapon) update() {
+func (w *BaseWeapon) Update(dt float64) {
+	w.Timeelapsed += dt
 }

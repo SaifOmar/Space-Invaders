@@ -20,6 +20,7 @@ const (
 
 type Enemy interface {
 	Update()
+	Fire(dt float64) *weapon.Projectile
 	Draw(*ebiten.Image)
 	GetPosition()
 }
@@ -40,5 +41,10 @@ func (b *BaseEnemy) Draw(screen *ebiten.Image) {
 func (b *BaseEnemy) GetPosition() {
 }
 
+func (b *BaseEnemy) Fire(dt float64) *weapon.Projectile {
+	return b.Weapon.Fire(*b.Position, dt)
+}
+
 func (b *BaseEnemy) Update() {
+	b.Position.Y += 1
 }
