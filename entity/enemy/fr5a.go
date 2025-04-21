@@ -11,7 +11,7 @@ type Fr5aFactory struct{}
 func (f Fr5aFactory) CreateEnemy(x, y int) Enemy {
 	b := &BaseEnemy{
 		Position:   &entity.Position{X: x, Y: y},
-		Dimensions: &entity.Dimensions{Width: 10, Height: 10},
+		Dimensions: &entity.Dimensions{Width: 20, Height: 20},
 		health:     100,
 		EnemyLevel: fr5a,
 		color:      color.RGBA{0x44, 0x44, 0x43, 0x30},
