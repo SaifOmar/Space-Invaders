@@ -39,11 +39,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 
 func Start() error {
 	p := entity.NewPlayer("Saif", 10, 100)
-	var enemies []enemy.Enemy
-	for range 4 {
-		e := enemy.NewFr5aEnemy(100, 100)
-		enemies = append(enemies, e)
-	}
+	enemies := enemy.CreateEnemies(3)
 	g := &Game{p, enemies}
 	if err := ebiten.RunGame(g); err != nil {
 		return err

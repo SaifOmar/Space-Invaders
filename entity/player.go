@@ -8,12 +8,12 @@ import (
 )
 
 type Player struct {
-	Name string
-	*Dimensions
-	*Position
+	Name   string
 	Speed  int
 	Dmg    int
 	health int
+	*Dimensions
+	*Position
 }
 
 func NewPlayer(name string, speed, dmg int) *Player {
